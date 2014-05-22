@@ -1,0 +1,8 @@
+name = Import Data from SQL
+description = Import SQL data using Migration.
+package = Gizra
+core = 7.x
+dependencies[] = migrate
+dependencies[] = migrate_extras
+files[] = handlers/node/article.inc
+files[] = includes/migrate.entity.inc

@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * Implements hook_migrate_api().
+ */
+function import_data_from_sql_migrate_api() {
+  $migrations = array(
+    // Nodes migrations classes.
+    'ImportArticleNodes'  => array('class_name' => 'ImportArticleNodes'),
+  );
+
+  $api = array(
+    'api' => 2,
+    'migrations' => $migrations,
+  );
+  return $api;
+}

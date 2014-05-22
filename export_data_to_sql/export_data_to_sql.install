@@ -1,0 +1,36 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ *
+ * Create the custom tables that will be used to store the exported data.
+ */
+function export_data_to_sql_schema() {
+  $schema = array();
+
+  // Schema for the 'exported_articles' table.
+  // This table will be used to store nodes of type 'article'.
+  $schema['exported_articles'] = array(
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'title' => array(
+        'type' => 'varchar',
+        'length' => 250,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'body' => array(
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+
+  return $schema;
+}
