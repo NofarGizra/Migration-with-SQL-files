@@ -16,7 +16,7 @@ First let's describe what we want to accomplish, in technical terms.
 
 **Step 1:** Creating custom tables in Drupal's database. We will create one table for each bundle we would like to export. Each of these tables will have one column for each field we would like to export from this bundle.
 
-**Step 2:** Retrieving all needed content from the project and storing it in the custom tables we created.
+**Step 2:** Retrieving all desired content from the project and storing it in the custom tables we created.
 
 **Step 3:** Creating a "dump" of the custom tables, i.e exporting our tables to an SQL file.
 
@@ -33,11 +33,11 @@ In this file there is PHP code which gets the content we want and stores it in t
 **Lines 28-40** go through all the nodes we retrieved and for each node they create a record with the data we would like to export and then insert the record into our custom table.
 
 ####File: export.sh
-This file can be run in the Terminal using the ``bash`` command. What this file does is run the ``export.php`` file so that the needed data is exported into our custom DB tables, and then it exports the custom tables into an SQL file. So actually, it taken care of stages 2 and 3 (Stage 1 is taken care by Drupal's hook system).
+This file can be run in the Terminal using the ``bash`` command. What this file does is run the ``export.php`` file so that the desired data is exported into our custom DB tables, and then it exports the custom tables into an SQL file. So actually, it takes care of stages 2 and 3 (Stage 1 is taken care of by Drupal's hook system).
 
 **Line 8** runs the code that exists in ``export.php``.
 
-**Line 11** creates a "dump" of the selected tables into an SQL file. Note that each custom table name must be specified in this line in order for the SQL file to include it. Here we only have the table ``exported_articles``, but know that if you want to export more than one table they must be separated with a comma and without any spaces between them, for example ``exported_articles,exported_news``.
+**Line 11** creates a "dump" of the selected tables into an SQL file. Note that each custom table name must be specified in this line in order for the SQL file to include it. Here we only have the table ``exported_articles``, but know that if you want to export more than one table they must be comma-separated and without any spaces between them, for example ``exported_articles,exported_news``.
 
 After running ``export.sh``, a file named ``exported_data.sql`` will be created inside the module's directory. This file will include the custom tables with the exported data.
 
