@@ -18,6 +18,7 @@ $last_exported = 0;
 $count_exported = 0;
 
 // Get the total amount of nodes that need to be exported.
+$query = new EntityFieldQuery();
 $total = $query
   ->entityCondition('entity_type', 'node')
   ->entityCondition('bundle', 'article')
@@ -67,24 +68,16 @@ while (TRUE) {
 
     if (round(memory_get_usage() / 1048576) >= $memory_limit) {
       // Print messages about the successful exports and about the memory limit.
-      export_data_to_sql_print_messages(TRUE);
+      $params = array(
+        '@first' => reset($nids),
+        '@last' => $last_exported,
+        '@count' => $count_exported,
+        '@total' => $total,
+      );
+      export_data_to_sql_print_messages($params, TRUE);
       exit;
     }
   }
-
-  // Print message about the successful exports.
-  export_data_to_sql_print_messages();
-}
-
-/**
- * Prints a message about successful exports.
- *
- * @param $is_memory_error
- *    If set to TRUE, an error message about memory limit will also be
- *    displayed. Defaults to FALSE.
- */
-function export_data_to_sql_print_messages($is_memory_error = FALSE) {
-  global $nids, $last_exported, $count_exported, $total;
 
   // Print message about the successful exports.
   $params = array(
@@ -93,10 +86,24 @@ function export_data_to_sql_print_messages($is_memory_error = FALSE) {
     '@count' => $count_exported,
     '@total' => $total,
   );
+  export_data_to_sql_print_messages($params);
+}
+
+/**
+ * Prints a message about successful exports.
+ *
+ * @param $params
+ *    Array of data required for the drush log messages.
+ * @param $is_memory_error
+ *    If set to TRUE, an error message about memory limit will also be
+ *    displayed. Defaults to FALSE.
+ */
+function export_data_to_sql_print_messages($params, $is_memory_error = FALSE) {
+  // Print message about the successful exports.
   drush_log(dt('Exported nodes from node ID @first to node ID @last. Export status: Exported @count out of @total nodes.', $params), 'success');
 
   if ($is_memory_error) {
     // Print error about memory limit.
-    drush_log(dt('Stopped before out of memory. Start process from the node ID @nid', array('@nid' => $last_exported + 1)), 'error');
+    drush_log(dt('Stopped before out of memory. Start process from the node ID @nid', array('@nid' => $params['@last'] + 1)), 'error');
   }
 }

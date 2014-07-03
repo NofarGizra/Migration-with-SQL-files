@@ -2,3 +2,4 @@ name = Export Data to SQL
 description = Export data from a Drupal project to an SQL file.
 package = Gizra
 core = 7.x
+dependencies[] = entity
